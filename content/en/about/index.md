@@ -1,35 +1,22 @@
 ---
-title: About Goldydocs
+title: About this Wiki
 linkTitle: About
 menu: {main: {weight: 10}}
 ---
 
 {{% blocks/cover title="About Goldydocs" image_anchor="bottom" height="auto" %}}
 
-A sample site using the Docsy Hugo theme.
+This is a draft project of a low-cost passive html wiki. It is made that way to stop worrying about mediawiki issues, databases, updates, spam bots, etc.
+If you like to support me or provide any suggestions, feel free to ping me wia email or on discord. 
 {.mt-5}
 
 {{% /blocks/cover %}}
 
 {{% blocks/lead %}}
 
-Goldydocs is a sample site using the [Docsy](https://github.com/google/docsy)
-Hugo theme that shows what it can do and provides you with a template site
-structure. It’s designed for you to clone and edit as much as you like. See the
-different sections of the documentation and site for more ideas.
+[Docsy](https://github.com/google/docsy)
+
+Sorry for some generic contant present here and there. I decided to clone example repository of Docsy to save some time on tis configuration. 
 
 {{% /blocks/lead %}}
 
-{{% blocks/section %}}
-
-# This is another section
-{.text-center}
-
-{{% /blocks/section %}}
-
-{{% blocks/section %}}
-
-# This is another section
-{.text-center}
-
-{{% /blocks/section %}}

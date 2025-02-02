@@ -1,5 +1,5 @@
-baseURL: https://example.docsy.dev
-title: Goldydocs
+baseURL: https://wiki.ripperdoc.de
+title: Macbook repair wiki
 
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
@@ -46,27 +46,16 @@ imaging:
 languages:
   en:
     languageName: English
-    title: Goldydocs
+    title: Repair Wiki
     params:
-      description: A Docsy example site
+      description: open and lightweight wiki based on Hugo / docsy theme
   # cSpell:disable
-  'no':
-    languageName: Norsk
-    contentDir: content/no
-    title: Gulldoks
+  de:
+    languageName: Deutsch
+    title: Reparatur Wiki
     params:
-      description: Docsy er operativsystem for skyen
-      time_format_default: 02.01.2006
-      time_format_blog: 02.01.2006
-  fa:
-    languageDirection: rtl
-    languageName: "فارسی (Persian)"
-    contentDir: content/fa
-    title: "اسناد گلدی"
-    params:
-      description: "یک نمونه برای پوسته داکسی"
-      time_format_default: 2006.01.02
-      time_format_blog: 2006.01.02
+      description: offenes und leichtgewichtiges Wiki basierend auf Hugo / docsy theme
+
   # cSpell:enable
 
 markup:
@@ -78,7 +67,7 @@ markup:
       unsafe: true
   highlight:
     # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
-    style: tango
+    style: onedark
     # Uncomment if you want your chosen highlight style used for code blocks without a specified language
     # guessSyntax: true
 
@@ -145,8 +134,8 @@ params:
   prism_syntax_highlighting: false
 
   copyright:
-    authors: Docsy Authors | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
-    from_year: 2018
+    authors: Community | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
+    from_year: 2025
 
   # User interface configuration
   ui:
@@ -166,7 +155,7 @@ params:
     # If you want this feature, but occasionally need to remove the "Feedback" section from a single page,
     # add "hide_feedback: true" to the page's front matter.
     feedback:
-      enable: true
+      enable: false
       # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
       'yes': >-
         Glad to hear it! Please <a href="https://github.com/USERNAME/REPOSITORY/issues/new">tell us how we can improve</a>.
