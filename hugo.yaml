@@ -1,5 +1,5 @@
 baseURL: https://wiki.ripperdoc.de
-title: Macbook repair wiki
+title: Mac and PC repair documentation
 
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
@@ -46,15 +46,15 @@ imaging:
 languages:
   en:
     languageName: English
-    title: Repair Wiki
+    title: .ripperdoc Wiki (for now)
     params:
-      description: open and lightweight wiki based on Hugo / docsy theme
+      description: open and lightweight wiki based on Hugo / docsy theme. If it works fine, this wiki will become a bigger and public project. for now it only has my articles i also post on logi.wiki and repair.wiki
   # cSpell:disable
   de:
     languageName: Deutsch
     title: Reparatur Wiki
     params:
-      description: offenes und leichtgewichtiges Wiki basierend auf Hugo / docsy theme
+      description: offenes und leichtgewichtiges Wiki basierend auf Hugo / docsy theme. Ich versuche möglicherweise in Zukunft, dieses Wiki zu einem größeren und öffentlichen Projekt zu machen. Derzeit enthält es nur meine Artikel, die ich auch auf logi.wiki und repair.wiki veröffentliche. 
 
   # cSpell:enable
 
@@ -189,14 +189,6 @@ params:
         url: https://github.com/google/docsy
         icon: fab fa-github
         desc: Development takes place here!
-      - name: Slack
-        url: https://example.org/slack
-        icon: fab fa-slack
-        desc: Chat with other project developers
-      - name: Developer mailing list
-        url: https://example.org/mail
-        icon: fa fa-envelope
-        desc: Discuss development issues around the project
 
 module:
   # Uncomment the next line to build and serve using local docsy clone declared in the named Hugo workspace:
