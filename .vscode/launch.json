@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open local server",
+            "preLaunchTask": "hugo",
+            "url": "http://localhost:1313/",
+            "webRoot": "${workspaceFolder}/RipperDoc/layouts/partials"
+        }
+    ]
+}
