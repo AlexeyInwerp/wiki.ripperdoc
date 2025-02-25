@@ -46,7 +46,7 @@ imaging:
 languages:
   en:
     languageName: English
-    title: .ripperdoc Wiki (for now)
+    title: wiki.ripperdoc 
     params:
       description: open and lightweight wiki based on Hugo / docsy theme. If it works fine, this wiki will become a bigger and public project. for now it only has my articles i also post on logi.wiki and repair.wiki
   # cSpell:disable
