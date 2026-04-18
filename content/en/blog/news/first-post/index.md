@@ -1,5 +1,5 @@
 ---
-date: 08-02-2025
+date: 2025-08-02
 title: Easy documentation with Docsy
 linkTitle: Announcing Docsy
 description: >
