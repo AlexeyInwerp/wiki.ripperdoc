@@ -4,7 +4,6 @@ title: Mac and PC repair documentation
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
 # Language settings
-contentDir: content/de
 defaultContentLanguage: de
 defaultContentLanguageInSubdir: false
 # Useful when translating.
@@ -45,12 +44,14 @@ imaging:
 # Language configuration
 languages:
   en:
+    contentDir: content/en
     languageName: English
     title: wiki.ripperdoc 
     params:
       description: open and lightweight wiki based on Hugo / docsy theme. If it works fine, this wiki will become a bigger and public project. for now it only has my articles i also post on logi.wiki and repair.wiki
   # cSpell:disable
   de:
+    contentDir: content/de
     languageName: Deutsch
     title: Reparatur Wiki
     params:
