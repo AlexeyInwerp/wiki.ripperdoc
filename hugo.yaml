@@ -1,11 +1,11 @@
-baseURL: https://wiki.ripperdoc.de
+baseURL: https://www.ripperdoc.de/wiki/
 title: Mac and PC repair documentation
 
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
 # Language settings
-contentDir: content/en
-defaultContentLanguage: en
+contentDir: content/de
+defaultContentLanguage: de
 defaultContentLanguageInSubdir: false
 # Useful when translating.
 enableMissingTranslationPlaceholders: true
