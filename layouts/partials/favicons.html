@@ -1,0 +1,10 @@
+{{/*
+Favicon override.
+
+The wiki is served from the same domain as the main RipperDoc.de site, so the
+browser will already pick up `/favicon.ico` served by the main site. We emit
+one explicit link to make that intent clear to crawlers and to silence the
+default Docsy favicon link tags (which would 404 without copies under
+/wiki/favicons/).
+*/}}
+<link rel="icon" href="/favicon.ico">
