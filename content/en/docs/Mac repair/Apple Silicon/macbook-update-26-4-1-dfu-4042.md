@@ -8,8 +8,6 @@ categories: [macOS, Apple Silicon, Firmware]
 tags: [DFU, revive, kernel panic, error 4042, IPSW]
 ---
 
-<link rel="alternate" hreflang="de" href="https://www.ripperdoc.de/wiki/docs/mac-repair/apple-silicon/macbook-update-26-4-1-dfu-4042/" />
-
 ## The symptom — and its variants
 
 The MacBook won't start up after a macOS 26.4.1 update. In the shop we see this in several variants:
