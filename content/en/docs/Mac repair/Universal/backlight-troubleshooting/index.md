@@ -12,7 +12,7 @@ tags: [backlight, display, LCD, troubleshooting]
 This article is authored by Alexey Lavrov and originally published on [logi.wiki](https://logi.wiki/index.php/Backlight_Troubleshooting). It is mirrored here as part of RipperDoc's open repair knowledge base. The canonical version and revision history are on logi.wiki.
 {{% /alert %}}
 
-[![Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air](https://logi.wiki/images/thumb/7/72/steve-jobs.webp/300px-steve-jobs.webp.png)](https://logi.wiki/index.php/File:steve-jobs.webp)
+[![Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air](steve-jobs.webp.png)](https://logi.wiki/index.php/File:steve-jobs.webp)
 
 *Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air*
 
@@ -39,19 +39,19 @@ The LP8550/8545 backlight driver can be divided into three parts:
 
 This section of the IC generates high voltage from PPBUS_G3H and boosts it to the default maximum for the platform when it receives the Enable signal. If the brightness is adjusted to a lower level, it generates a lower voltage to optimize power consumption. The main function of this circuit is to drive LED stripes within the screen, typically through the VOUT or VLED test points on the TCON board.
 
-[![Booster circuit diagram](https://logi.wiki/images/thumb/a/a6/Booster_circuit.jpg/415px-Booster_circuit.jpg)](https://logi.wiki/index.php/File:Booster_circuit.jpg)
+[![Booster circuit diagram](Booster_circuit.jpg)](https://logi.wiki/index.php/File:Booster_circuit.jpg)
 
 Simplified diagram from The LP8545 datasheet. T1 FET and feedback voltage divider are integrated in LP8550.
 
 ##### LED-Return / Feedback / Current sink part.
 
-[![LED Return diagram 1](https://logi.wiki/images/f/fa/LED_Return.jpg)](https://logi.wiki/index.php/File:LED_Return.jpg) >> [![LED Return diagram 2](https://logi.wiki/images/thumb/c/ca/LED_Return_2.jpg/374px-LED_Return_2.jpg)](https://logi.wiki/index.php/File:LED_Return_2.jpg)
+[![LED Return diagram 1](LED_Return.jpg)](https://logi.wiki/index.php/File:LED_Return.jpg) >> [![LED Return diagram 2](LED_Return_2.jpg)](https://logi.wiki/index.php/File:LED_Return_2.jpg)
 
 LED return/feedback/current sink: This part of the IC connects the cathode part of the LED stripe to ground through PWM-controlled FETs (current sinks), which adjusts the brightness of the screen. LED_RETURN_1..6 lines are present on the eDP/LVDS connector, and a broken line can cause uneven lighting on some parts of the screen (so-called "Stagelight" effect).
 
 - Logical part
 
-[![LP8545 Logic part diagram](https://logi.wiki/images/thumb/d/d9/LP8545_Logic_part.jpg/300px-LP8545_Logic_part.jpg)](https://logi.wiki/index.php/File:LP8545_Logic_part.jpg)
+[![LP8545 Logic part diagram](LP8545_Logic_part.jpg)](https://logi.wiki/index.php/File:LP8545_Logic_part.jpg)
 
 This circuit controls PWM, high voltage generation, I²C communication with PCH/MCU/gMUX/tCon processors, and has an EPROM with a stored brightness profile and slopes.
 
@@ -63,7 +63,7 @@ Please refer to [Piernov's LP8550 Slope configuration software and instructional
 
 The LP8548+LP8549 combination is a split variant of the LP8545. The LP8548 is a BOOST IC with an I²C communication part, controlled by the LP8549 placed on the TCON board since the MacBook Pro 2014. The LP8549's main I²C interface is directly connected to the TCON LCD controller, freeing six pins on the eDP connector. Refer to the 820-3787 schematics/boardview for both chips' locations, as this board has both chips nearby and still has LED_RETURN lines on the eDP connector.
 
-[![820-3787 board showing communication line between LP8548 and LP8549](https://logi.wiki/images/thumb/3/39/820-3787.jpg/300px-820-3787.jpg)](https://logi.wiki/index.php/File:820-3787.jpg)
+[![820-3787 board showing communication line between LP8548 and LP8549](820-3787.jpg)](https://logi.wiki/index.php/File:820-3787.jpg)
 
 *As you may see there is a communication line between two chips. LP8549 could be considered as "primary".*
 
@@ -107,13 +107,13 @@ Boost circuit part troubleshooting is quite similar (same feedback function, sam
 
 If FUSE / boost circuit checks out, check these two testpoints on TCON Board (similar on all devices, new displays have no marks on them)
 
-[![TCON Backlight SDA/SCL testpoints](https://logi.wiki/images/thumb/a/a0/TCON_Backlight_communication.png/300px-TCON_Backlight_communication.png)](https://logi.wiki/index.php/File:TCON_Backlight_communication.png)
+[![TCON Backlight SDA/SCL testpoints](TCON_Backlight_communication.png)](https://logi.wiki/index.php/File:TCON_Backlight_communication.png)
 
 *TCON Backlight SDA / SCL testpoints*
 
 If there is communication going on and lines are not shorted (0.4-0.5V drop in diode mode) check VLED voltage under the backlight cable:
 
-[![TCON Backlight VLED Voltage testpoint](https://logi.wiki/images/thumb/3/3b/TCON_Backlight_VOUT.png/300px-TCON_Backlight_VOUT.png)](https://logi.wiki/index.php/File:TCON_Backlight_VOUT.png)
+[![TCON Backlight VLED Voltage testpoint](TCON_Backlight_VOUT.png)](https://logi.wiki/index.php/File:TCON_Backlight_VOUT.png)
 
 *TCON Backlight VLED Voltage testpoint*
 

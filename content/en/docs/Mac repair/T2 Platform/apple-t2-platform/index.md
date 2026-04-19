@@ -80,10 +80,10 @@ The power sequence could be possibly divided into 3 main stages:
 
 ## T2 Power diagram
 
-*Note: The power sequence diagram image (Powersequence T2 beta 0.1) was not available at time of mirroring — the original file at [repair.wiki](https://repair.wiki/w/File:Powersequence_T2_beta1.png) returned a thumbnail error. See the [canonical article](https://repair.wiki/w/Apple_T2_platform) for the latest version.*
+![T2 power sequence, beta 1](Powersequence_T2_beta1.png)
 
 ## Power Sequence (detailed)
 
 Please note that a sequential list does not mean that having some deeper steps rules out all previous. During diagnostics try to go through the whole sequence. As an example, PMU_CMK32K_SOC is not required until T2 fully boots iBSS firmware from SocROM. However it would prevent its SMC Firmware part to initiate further power sequence.
 
-*Note: The detailed power sequence diagram (Power sequence ver 5) was not available at time of mirroring — the original file at [repair.wiki](https://repair.wiki/w/File:Power_sequence_ver_5.png) returned a thumbnail error. See the [canonical article](https://repair.wiki/w/Apple_T2_platform) for the latest version.*
+![Power sequence, version 5](Power_sequence_ver_5.png)
