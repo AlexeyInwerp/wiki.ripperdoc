@@ -3,7 +3,7 @@ title: Reparatur Wiki
 ---
 
 {{< blocks/cover title="RipperDoc Reparatur-Wiki" image_anchor="top" height="full" >}}
-<a class="btn btn-lg btn-primary me-3 mb-4" href="/docs/">
+<a class="btn btn-lg btn-primary me-3 mb-4" href="/wiki/docs/">
   Artikel lesen <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
 <a class="btn btn-lg btn-secondary me-3 mb-4" href="https://www.ripperdoc.de/kontakt/">
@@ -22,17 +22,17 @@ Die Artikel entstehen parallel zu Beiträgen auf [logi.wiki](https://logi.wiki) 
 
 
 {{% blocks/section color="dark" type="row" %}}
-{{% blocks/feature icon="fa-apple" title="Apple Silicon" url="/docs/mac-repair/apple-silicon/" %}}
+{{% blocks/feature icon="fa-apple" title="Apple Silicon" url="/wiki/docs/mac-repair/apple-silicon/" %}}
 Firmware-Probleme, DFU-Revive, Fehlercodes aus Apple Configurator 2.
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fa-memory" title="T2-Plattform" url="/docs/mac-repair/t2-platform/" %}}
+{{% blocks/feature icon="fa-memory" title="T2-Plattform" url="/wiki/docs/mac-repair/t2-platform/" %}}
 Intel-Macs mit T2-Chip: Secure Boot, SSD-Themen, Backlight.
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fa-wrench" title="Universal" url="/docs/mac-repair/universal/" %}}
+{{% blocks/feature icon="fa-wrench" title="Universal" url="/wiki/docs/mac-repair/universal/" %}}
 Themen, die plattformübergreifend alle MacBook-Generationen betreffen.
 {{% /blocks/feature %}}
 {{% /blocks/section %}}
@@ -50,8 +50,8 @@ Ein offenes Reparatur-Wiki
 Änderungen und Artikel können per Pull Request auf GitHub beigetragen werden.
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-language" title="English version" url="/en/" %}}
-All articles are available in English under /en/.
+{{% blocks/feature icon="fa-language" title="English version" url="/wiki/en/" %}}
+All articles are available in English under /wiki/en/.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fa-house" title="RipperDoc.de" url="https://www.ripperdoc.de/" %}}
