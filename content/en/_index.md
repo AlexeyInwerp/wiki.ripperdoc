@@ -2,18 +2,10 @@
 title: Repair Wiki
 ---
 
-RipperDoc Repair Wiki. Technical articles on MacBook, notebook and PC repair.
+# Repair Wiki
+
+Technical articles on MacBook, notebook, and PC repair from our workshop in Munich. Articles are cross-posted with [logi.wiki](https://logi.wiki) and [repair.wiki](https://repair.wiki).
 
 ## Articles
 
 {{< article-list >}}
-
-## Languages
-
-- [Deutsche Version](/wiki/)
-
-## More
-
-- [Back to the repair shop at ripperdoc.de](https://www.ripperdoc.de/)
-- [Request a repair](https://www.ripperdoc.de/kontakt/)
-- Further reading: [logi.wiki](https://logi.wiki), [repair.wiki](https://repair.wiki)

@@ -1,12 +1,12 @@
-{{- /* Simple flat list of all articles under the docs/ section,
-      sorted alphabetically by title. Language-aware. */ -}}
+{{- /* Flat alphabetical list of article pages under the docs/ section.
+      Language-aware via site.RegularPages. */ -}}
 {{ $pages := where site.RegularPages "Section" "docs" }}
 {{ $pages = $pages.ByTitle }}
 <ul class="article-list">
   {{ range $pages }}
     <li>
       <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ with .Description }}<span class="text-body-secondary"> — {{ . }}</span>{{ end }}
+      {{ with .Description }}<span class="article-list__desc">{{ . }}</span>{{ end }}
     </li>
   {{ end }}
 </ul>

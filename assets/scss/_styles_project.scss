@@ -1,0 +1,121 @@
+/*
+  Project styles for the RipperDoc wiki.
+  Kept minimal and scoped — don't fight the Docsy/Bootstrap defaults.
+*/
+
+// -----------------------------------------------------------------------------
+// Home page
+// -----------------------------------------------------------------------------
+body.td-home {
+  main.td-main {
+    // Clear the sticky navbar (~64px) with breathing room; centred reading column.
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // Page heading: prominent but restrained.
+  h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  // The intro paragraph directly after the H1.
+  h1 + p {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: #4a5568;
+    max-width: 60ch;
+    margin: 0 0 3rem;
+  }
+
+  // Section labels ("Artikel"): eyebrow-style, not another full heading.
+  h2 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #6c757d;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Article list (the <ul class="article-list"> emitted by the shortcode)
+// -----------------------------------------------------------------------------
+.article-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.25rem;
+
+  li {
+    padding: 0.85rem 1rem;
+    border-left: 3px solid transparent;
+    border-radius: 0 0.25rem 0.25rem 0;
+    transition: background-color 120ms ease, border-left-color 120ms ease;
+
+    &:hover {
+      background-color: #f8f9fa;
+      border-left-color: var(--bs-primary, #0d6efd);
+    }
+
+    > a {
+      display: inline-block;
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.35;
+      text-decoration: none;
+      color: #1a202c;
+
+      &:hover {
+        color: var(--bs-primary, #0d6efd);
+      }
+    }
+
+    .article-list__desc {
+      display: block;
+      margin-top: 0.2rem;
+      color: #6c757d;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Dark-mode variants so the home respects Docsy's theme switch.
+[data-bs-theme="dark"] {
+  body.td-home {
+    h1 + p {
+      color: #cbd5e0;
+    }
+    h2 {
+      color: #a0aec0;
+      border-bottom-color: #2d3748;
+    }
+  }
+  .article-list li {
+    &:hover {
+      background-color: #1f2937;
+    }
+    > a {
+      color: #e2e8f0;
+      &:hover {
+        color: var(--bs-primary, #60a5fa);
+      }
+    }
+    .article-list__desc {
+      color: #a0aec0;
+    }
+  }
+}
