@@ -3,28 +3,28 @@ title: "MacBook funktioniert nach dem Update auf macOS 26.4.1 plötzlich nicht m
 linkTitle: "MacBook 26.4.1 — DFU-Fehler 4042"
 date: 2026-04-18
 weight: 10
-description: "Plötzlich schwarzer Bildschirm nach dem Update auf macOS 26.4.1. Warum ein DFU-Restore mit Fehler 4042 scheitert und wie man das Gerät mit einem doppelten Revive ohne Datenverlust rettet."
+description: "Plötzlich schwarzer Bildschirm nach dem Update auf macOS 26.4.1. Warum eine Wiederherstellung mit Fehler 4042 scheitert und wie sich das Gerät ohne Datenverlust retten lässt."
 categories: [macOS, Apple Silicon, Firmware]
 tags: [DFU, revive, kernel panic, error 4042, IPSW]
 ---
 
 ## Das Symptom — und die Varianten
 
-Das MacBook ist nach einem Update auf macOS 26.4.1 plötzlich nicht mehr startklar. In der Werkstatt sehen wir das in mehreren Varianten:
+Das MacBook ist nach einem Update auf macOS 26.4.1 plötzlich nicht mehr startklar. Das Symptom tritt in mehreren Varianten auf:
 
-- Der Kunde hat das 26.4.1-Update manuell ausgeführt, das Gerät neu gestartet — danach bleibt der Bildschirm schwarz.
-- Das Update ist über Nacht automatisch installiert worden (macOS-Standardverhalten: "Morgen früh um 2 Uhr installieren"). Am nächsten Morgen bootet das Gerät nicht mehr.
+- Das 26.4.1-Update wurde manuell ausgeführt, das Gerät neu gestartet — danach blieb der Bildschirm schwarz.
+- Das Update wurde über Nacht automatisch installiert (macOS-Standardverhalten: "Morgen früh um 2 Uhr installieren"). Am nächsten Morgen bootete das Gerät nicht mehr.
 - Es wurde nie auf "Aktualisieren" geklickt — aber automatische Firmware- oder Sicherheitsupdates landen auf dieselbe Weise im System.
 
-Die sichtbaren Symptome unterscheiden sich leicht: komplett schwarzer Bildschirm, Apple-Logo gefolgt von Schwarz, Lüfter laufen ohne Bild, Power-LED an ohne Display, oder ein endloser Neustart-Loop. Viele Kunden kommen zu uns in der festen Überzeugung, nichts aktualisiert zu haben — automatische Updates machen das oft unsichtbar.
+Das sichtbare Symptom ist meist unspektakulär: ein schwarzer Bildschirm. Die CPU wird leicht warm, manchmal laufen die Lüfter — mehr ist äußerlich nicht zu erkennen.
 
 ## Was technisch passiert
 
-Die 26.4.1-Firmware löst auf betroffenen Modellen eine **Kernel Panic während der DFU-Restore-Transition-Phase** aus. Das Schreiben der Firmware läuft sauber durch, aber sobald das Gerät vom DFU-Modus in den recoveryOS booten soll, friert es ein und meldet sich nie wieder zurück.
+Der Fehler liegt in der Boot-Kette — im Übergang **iLLB → iBoot → Kernel**. Nach bisheriger Untersuchung bleibt das Gerät bei **iBoot in einem nicht behebbaren Panic-Zustand** stehen; weitere Belege ließen sich in den Logs bislang nicht finden — dieser Abschnitt wird ergänzt, sobald genug Zeit mit einem betroffenen Gerät vorhanden ist. Das Gerät fällt nicht zwangsläufig sofort aus: Manchmal tritt der Fehler erst bei einem **vollständigen Neustart** auf — und der kann Wochen nach der Installation des fehlerhaften Updates passieren, zum Beispiel, nachdem der Akku einmal komplett leer war. Ein Gerät kann also direkt nach der Update-Installation noch normal booten und erst Wochen später — oder beim nächsten vollständigen Neustart — ausfallen.
 
 ## Das Log — Fehlercode 4042
 
-Ein typischer Auszug aus Apple Configurator 2:
+Ein typischer Auszug aus dem Log in der Konsole (Console.app):
 
 ```
 [17:59:01.7501] Finished DFU Restore Phase: Successful
@@ -44,31 +44,47 @@ Ein typischer Auszug aus Apple Configurator 2:
 [18:09:01.7664] AMPDevicesAgent: Restore error 4042
 ```
 
-Was darin steht, in einfacher Sprache: der Firmware-Write war erfolgreich. Das Gerät hat sich — wie erwartet — vom USB getrennt, um in recoveryOS zu booten. Es ist aber innerhalb der 10-Minuten-Frist nicht wiederaufgetaucht. Configurator gibt auf und meldet 4042. Ursache ist keine kaputte Kabelverbindung und kein fehlgeschlagenes Schreiben — es ist eine **Kernel Panic beim Boot**, die das Gerät in einen toten Zwischenzustand zwingt.
+Was darin steht, in einfacher Sprache: der Firmware-Write war erfolgreich. Das Gerät hat sich danach vom USB getrennt, ist aber innerhalb der 10-Minuten-Frist nicht wieder aufgetaucht. Der Vorgang gibt auf und meldet 4042. Es ist also weder eine kaputte Kabelverbindung noch ein fehlgeschlagenes Schreiben — das Gerät bootet nach dem Schreiben schlicht nicht wieder durch.
 
-## Die sichere Lösung — "Double Revive"
+## Die sichere Lösung
 
-**Wichtige Warnung vorab: Auf keinen Fall einen vollständigen Restore versuchen.** Restore löscht alle Benutzerdaten *und* läuft in denselben 4042-Fehler, weil die Zielfirmware dieselbe kaputte 26.4.1 ist.
+**Wichtige Warnung vorab: Auf keinen Fall eine vollständige Wiederherstellung (Restore) versuchen.** Die Wiederherstellung löscht alle Benutzerdaten *und* läuft in denselben 4042-Fehler, weil die Zielfirmware dieselbe kaputte 26.4.1 ist.
 
-Der sichere Weg in Apple Configurator 2:
+{{% alert title="Seit macOS 26.5 ist das doppelte Reparieren nicht mehr nötig" color="info" %}}
+Seit dem 26.5-Update ist das doppelte Reparieren im Normalfall **nicht mehr erforderlich**. macOS 26.5 korrigiert den **iLLB** (Low-Level-Bootloader); der hängende Boot lag höchstwahrscheinlich im Übergang iLLB → iBoot (oder weiter zum Kernel). Das fehlerhafte 26.4.1-Update konnte sich nicht selbst reparieren — es blieb aus demselben Grund hängen, der den Fehler ursprünglich verursacht hat.
 
-1. Gerät in DFU versetzen (je nach Modell die bekannte Tastenkombination).
-2. **Revive** (nicht Restore!) mit einem **älteren IPSW** — eine Version zurück, zum Beispiel 26.4.0 oder das letzte 26.3.x. Revive installiert nur Firmware und recoveryOS neu; die APFS-Benutzervolumes bleiben unberührt.
-3. Gerät bootet danach normal auf der älteren Firmware. Login-Screen abwarten.
-4. **Erneut Revive** — diesmal mit dem **aktuellen IPSW (26.4.1)**. Dieser zweite Revive gelingt, weil das Gerät jetzt lebt und den Firmware-Übergang nicht mehr aus dem kalten DFU-Boot-Pfad heraus machen muss.
+Der einfachere Weg: einmal **Reparieren** (Revive), bis das Gerät wieder bootet — danach **Daten sichern** — und erst dann die **Betriebssystemaktualisierung** ganz normal durchführen.
+{{% /alert %}}
+
+Reparieren und Wiederherstellen erfolgen seit macOS Sonoma im **Finder** eines zweiten Macs (siehe [DFU-Modus bei Apple Silicon](/wiki/docs/mac-repair/apple-silicon/dfu-mode-apple-silicon/)).
+
+### Doppeltes Reparieren („Double Revive") — Fallback-Technik
+
+Seit macOS 26.5 ist dieser Weg im Normalfall nicht mehr nötig. Er bleibt aber als Technik dokumentiert, weil er in ähnlichen Fällen weiterhelfen kann:
+
+- Tritt ein **4042-Fehler** auf, kann ein **Reparieren mit einem früheren IPSW** helfen. IPSW-Dateien pro Modell: [ipsw.me](https://ipsw.me/product/Mac/) und [Apple-Silicon-IPSW-Datenbank (Mr. Macintosh)](https://mrmacintosh.com/apple-silicon-m1-full-macos-restore-ipsw-firmware-files-database/).
+- Das **doppelte Reparieren** ist eine wichtige Technik für Randfälle, in denen ein Reparieren mit der neuesten Version nicht durchläuft.
+
+Ablauf:
+
+1. Gerät in DFU versetzen (siehe [DFU-Modus bei Apple Silicon](/wiki/docs/mac-repair/apple-silicon/dfu-mode-apple-silicon/)).
+2. **Reparieren** (nicht Wiederherstellen!) mit einem **früheren IPSW** — eine Version zurück, zum Beispiel 26.4.0 oder das letzte 26.3.x. Das Reparieren installiert nur Firmware und recoveryOS neu; die APFS-Benutzervolumes bleiben unberührt.
+3. Gerät bootet danach normal auf der früheren Firmware. Login-Screen abwarten.
+4. **Erneut Reparieren** — diesmal mit dem aktuellen IPSW.
 5. Daten sind erhalten; Gerät ist auf aktueller Firmware.
 
-Warum das funktioniert: der erste Revive bringt das Gerät zurück auf eine bootfähige Firmware, die die Kernel Panic im Transition-Pfad nicht auslöst. Der zweite Revive aktualisiert die Firmware aus einem laufenden System heraus und umgeht den fehlerhaften Kaltstart-Pfad.
+{{% alert title="Bestimmtes IPSW auswählen" color="info" %}}
+Um ein anderes als das neueste IPSW zu wählen, beim Klick auf **Reparieren** (oder **Wiederherstellen**) die **Option**-Taste gedrückt halten und die Datei auswählen. Das Release-Datum des IPSW darf nicht vor dem Release-Datum des Macs liegen — ein älteres Image funktioniert schlicht nicht und scheitert mit einem Kompatibilitätsfehler.
+{{% /alert %}}
 
 ## Was auf keinen Fall tun
 
-- **Kein Restore** in Configurator — Datenverlust und derselbe 4042-Fehler.
-- **Kabel nicht ziehen**, solange das Gerät im Zustand "Transitioning" hängt — das Risiko eines tieferen Bricks steigt deutlich.
-- **Keine Drittanbieter-Tools** für Apple-Silicon-Firmware. Es gibt dafür keine seriösen Alternativen zu Configurator.
+- **Keine Wiederherstellung (Restore)** — Datenverlust *und* derselbe 4042-Fehler.
+- **Logicboard nicht reparieren oder austauschen lassen.** Es gibt zahlreiche Berichte, dass selbst mehrere autorisierte Apple-Partner dieses Problem als "Hardware"-Defekt eingestuft haben. 800 € für ein neues Board plus Datenverlust sind in den allermeisten Fällen völlig unnötig.
 
-## Wann zu uns bringen
+## Im Zweifel: passende Werkstatt suchen
 
-Das ist ein sicherer Werkstatt-Fix, den wir regelmäßig durchführen. Die Daten bleiben erhalten, die Reparatur dauert in der Regel weniger als eine Stunde. [Kontakt und Terminvereinbarung](https://www.ripperdoc.de/kontakt/).
+Wer sich unsicher ist, sollte eine Reparaturwerkstatt suchen, die dieses Problem kennt. Der übliche Preis für eine solche Reparatur sollte etwa auf dem Niveau einer System-Neuinstallation auf einem Windows- oder Mac-Gerät liegen — technisch ist es nahezu dasselbe.
 
 ## Weiterführende Links
 

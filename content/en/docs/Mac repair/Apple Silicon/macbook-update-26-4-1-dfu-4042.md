@@ -3,28 +3,28 @@ title: "MacBook suddenly stopped working after the update to macOS 26.4.1"
 linkTitle: "MacBook 26.4.1 — DFU error 4042"
 date: 2026-04-18
 weight: 10
-description: "Your MacBook won't boot after the 26.4.1 update. Why a DFU restore fails with error 4042 and how to recover the machine with a double revive without losing data."
+description: "Your MacBook won't boot after the 26.4.1 update. Why a restore fails with error 4042 and how to recover the machine without losing data."
 categories: [macOS, Apple Silicon, Firmware]
 tags: [DFU, revive, kernel panic, error 4042, IPSW]
 ---
 
 ## The symptom — and its variants
 
-The MacBook won't start up after a macOS 26.4.1 update. In the shop we see this in several variants:
+The MacBook won't start up after a macOS 26.4.1 update. The symptom appears in several variants:
 
-- The customer manually ran the 26.4.1 update, rebooted, and hit a black screen.
+- The 26.4.1 update was run manually, the machine rebooted, and hit a black screen.
 - The update installed automatically overnight (macOS default: "Install tomorrow at 2 AM"). Next morning, the machine no longer boots.
-- The customer never clicked Update — but automatic firmware or security updates land the same way.
+- Update was never clicked — but automatic firmware or security updates land the same way.
 
-Visual symptoms vary: fully black screen, Apple logo followed by black, fans spinning with no display, power LED on with no video, or an endless reboot loop. Many customers arrive certain they didn't update anything — automatic updates often make the install invisible.
+The visible symptom is usually unremarkable: a black screen. The CPU gets slightly warm and the fans sometimes run — there is nothing more to see from the outside.
 
 ## What's actually happening
 
-On affected models the 26.4.1 firmware triggers a **kernel panic during the DFU-restore transition phase**. The firmware write completes cleanly, but as the device tries to hand off from DFU to a booted recoveryOS, it panics — and never re-enumerates.
+The failure is in the boot chain — the **iLLB → iBoot → kernel** transition. According to the investigation so far, the device stops at **iBoot in a non-recoverable panic state**; no further evidence has been found in the logs yet, and this will be updated as more time with an affected machine allows. The device does not necessarily fail immediately: sometimes the failure only appears on a **full restart** — which can happen weeks after the faulty update was installed, for example once the battery has gone completely empty. So a device may still boot normally right after the update is installed and only fail weeks later, or whenever the next full reboot occurs.
 
 ## The log — error code 4042
 
-A typical excerpt from Apple Configurator 2:
+A typical excerpt from the log in Console (Console.app):
 
 ```
 [17:59:01.7501] Finished DFU Restore Phase: Successful
@@ -44,31 +44,47 @@ A typical excerpt from Apple Configurator 2:
 [18:09:01.7664] AMPDevicesAgent: Restore error 4042
 ```
 
-In plain language: the firmware write was successful. The device disconnected — as expected — to reboot into recoveryOS. It never came back within the 10-minute window. Configurator gave up and reported 4042. The root cause is neither a bad cable nor a failed write — it is a **kernel panic at boot** that leaves the device in a dead in-between state.
+In plain language: the firmware write was successful. The device then disconnected and never came back within the 10-minute window. The process gave up and reported 4042. So it is neither a bad cable nor a failed write — after the write, the device simply does not boot through again.
 
-## The safe fix — "Double Revive"
+## The safe fix
 
 **Important warning up front: do not attempt a full Restore.** Restore erases all user data *and* hits the same 4042 because the target firmware is the broken 26.4.1.
 
-The safe path in Apple Configurator 2:
+{{% alert title="The double revive is no longer needed since macOS 26.5" color="info" %}}
+Since the 26.5 update, the double revive is normally **no longer required**. macOS 26.5 corrects the **iLLB** (low-level bootloader); the stuck boot was most likely in the iLLB → iBoot transition (or onward to the kernel). The faulty 26.4.1 update could not fix itself — it stayed stuck for the same reason the failure happened in the first place.
 
-1. Put the device into DFU (the usual model-specific keystroke sequence).
-2. **Revive** (not Restore!) using an **older IPSW** — one version back, e.g. 26.4.0 or the latest 26.3.x. Revive reinstalls firmware and recoveryOS only; user APFS volumes are untouched.
-3. The device now boots normally on the older firmware. Wait for the login screen.
-4. **Revive again** — this time with the **current IPSW (26.4.1)**. This second revive succeeds because the device is alive and does not have to make the firmware transition out of a cold DFU boot.
+The simpler path: do a single **Revive** until the device boots again — then **back up the data** — and only then run the **OS update** normally.
+{{% /alert %}}
+
+Revive and Restore are done from the **Finder** on a second Mac since macOS Sonoma (see [DFU mode on Apple Silicon](/wiki/en/docs/mac-repair/apple-silicon/dfu-mode-apple-silicon/)).
+
+### Double Revive — fallback technique
+
+Since macOS 26.5 this path is normally no longer needed. It stays documented as a technique because it can help in similar cases:
+
+- If a **4042 error** occurs, a **Revive with an earlier IPSW** can fix it. IPSW files per model: [ipsw.me](https://ipsw.me/product/Mac/) and the [Apple Silicon IPSW database (Mr. Macintosh)](https://mrmacintosh.com/apple-silicon-m1-full-macos-restore-ipsw-firmware-files-database/).
+- The **double revive** is an important technique for edge cases where a Revive with the latest version won't go through.
+
+Steps:
+
+1. Put the device into DFU (see [DFU mode on Apple Silicon](/wiki/en/docs/mac-repair/apple-silicon/dfu-mode-apple-silicon/)).
+2. **Revive** (not Restore!) using an **earlier IPSW** — one version back, e.g. 26.4.0 or the latest 26.3.x. Revive reinstalls firmware and recoveryOS only; user APFS volumes are untouched.
+3. The device now boots normally on the earlier firmware. Wait for the login screen.
+4. **Revive again** — this time with the current IPSW.
 5. Data preserved; machine is on current firmware.
 
-Why it works: the first revive restores the device to a bootable firmware that does not trigger the kernel panic on the transition path. The second revive upgrades firmware from a running system, bypassing the broken cold-boot path entirely.
+{{% alert title="Choosing a specific IPSW" color="info" %}}
+To pick an IPSW other than the latest, hold the **Option** key while clicking **Revive** (or **Restore**) and select the file. The IPSW's release date must not be earlier than your Mac's release date — an older image simply won't work and fails with a compatibility error.
+{{% /alert %}}
 
 ## What NOT to do
 
-- **Do not Restore** in Configurator — data loss *and* the same 4042 error.
-- **Do not pull the cable** while the device is stuck in "Transitioning" — the risk of a deeper brick goes up sharply.
-- **Do not use third-party tools** for Apple-Silicon firmware work. There is no credible alternative to Configurator for this.
+- **Do not Restore** — data loss *and* the same 4042 error.
+- **Do not have the logic board repaired or replaced.** There are numerous reports that even several Apple Authorized Service Providers wrote this off as a "hardware" defect. €800 for a new board plus data loss is, in the vast majority of cases, completely unnecessary.
 
-## When to bring it to us
+## If you're not sure — find the right repair shop
 
-This is a safe in-shop fix we do regularly. Data stays intact, the repair usually takes less than an hour. [Contact us and book a slot](https://www.ripperdoc.de/kontakt/).
+If you're not sure, look for a repair shop that knows this issue. The usual quote for such a repair should be roughly the same as what people charge for a system installation on a Windows or Mac machine — technically it is almost the same thing.
 
 ## Further reading
 
