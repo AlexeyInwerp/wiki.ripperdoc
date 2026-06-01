@@ -12,9 +12,7 @@ tags: [backlight, display, LCD, troubleshooting]
 This article is authored by Alexey Lavrov and originally published on [logi.wiki](https://logi.wiki/index.php/Backlight_Troubleshooting). It is mirrored here as part of RipperDoc's open repair knowledge base. The canonical version and revision history are on logi.wiki.
 {{% /alert %}}
 
-[![Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air](steve-jobs.webp.png)](https://logi.wiki/index.php/File:steve-jobs.webp)
-
-*Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air*
+{{< figright src="steve-jobs.webp.png" alt="Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air" caption="Steve Jobs demonstrating corroded PPVOUT_SW_LCDBKLT_FB on his MacBook Air" link="https://logi.wiki/index.php/File:steve-jobs.webp" >}}
 
 ## First things first
 

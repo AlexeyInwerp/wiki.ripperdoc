@@ -1,0 +1,21 @@
+{{- /*
+  figright — float a figure into a bordered box on the right, text wraps around it.
+  Usage: {{< figright src="image.webp" alt="…" caption="…" link="https://…" >}}
+  src is resolved as a page-bundle resource first, falling back to a relative URL.
+  link is optional and wraps the image in an anchor (e.g. to the source file).
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" -}}
+{{- $caption := .Get "caption" -}}
+{{- $link := .Get "link" -}}
+{{- $img := .Page.Resources.GetMatch $src -}}
+{{- $url := $src | relURL -}}
+{{- with $img }}{{ $url = .RelPermalink }}{{ end -}}
+<figure class="figure-right">
+  {{- with $link }}<a href="{{ . }}">{{ end -}}
+  <img src="{{ $url }}" alt="{{ $alt }}" loading="lazy">
+  {{- with $link }}</a>{{ end }}
+  {{- with $caption }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
