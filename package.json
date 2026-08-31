@@ -48,5 +48,8 @@
   "prettier": {
     "proseWrap": "always",
     "singleQuote": true
+  },
+  "allowScripts": {
+    "hugo-extended@0.142.0": true
   }
 }
