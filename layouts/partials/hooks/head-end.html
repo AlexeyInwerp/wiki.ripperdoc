@@ -1,0 +1,7 @@
+{{- /* Keep utility pages out of the index: the search page and the tag/category
+       archives (27 tags + 10 categories for 14 articles per language). They stay
+       crawlable and linked (noindex,follow), but are not submitted for indexing.
+       The matching sitemap override lives in layouts/_default/sitemap.xml. */ -}}
+{{- if or (in (slice "taxonomy" "term") .Kind) (eq .Layout "search") -}}
+<meta name="robots" content="noindex, follow">
+{{- end -}}
